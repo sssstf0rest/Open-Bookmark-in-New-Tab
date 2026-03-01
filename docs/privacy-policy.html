@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Privacy Policy — Open Bookmarks in New Tab</title>
+  <style>
+    /* ── Reset ──────────────────────────────────────────────────────────── */
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    /* ── Design Tokens ──────────────────────────────────────────────────── */
+    :root {
+      --bg:          #0f172a;
+      --card:        #1e293b;
+      --card-alt:    #263348;
+      --text:        #e2e8f0;
+      --text-sec:    #94a3b8;
+      --accent:      #4fc3f7;
+      --accent-dim:  rgba(79, 195, 247, 0.12);
+      --border:      rgba(255, 255, 255, 0.06);
+      --radius:      12px;
+    }
+
+    /* ── Page ───────────────────────────────────────────────────────────── */
+    body {
+      font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.75;
+      padding: 2.5rem 1rem;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── Container ──────────────────────────────────────────────────────── */
+    main {
+      max-width: 760px;
+      margin: 0 auto;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 3rem;
+    }
+
+    /* ── Header ─────────────────────────────────────────────────────────── */
+    .header {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 0.5rem;
+    }
+    .header-icon {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 44px;
+      height: 44px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, var(--accent), #0288d1);
+      flex-shrink: 0;
+    }
+    .header-icon svg {
+      width: 22px;
+      height: 22px;
+      color: #fff;
+    }
+
+    h1 {
+      font-size: 1.85rem;
+      font-weight: 700;
+      color: #fff;
+    }
+
+    .meta {
+      font-size: 0.85rem;
+      color: var(--text-sec);
+      margin-bottom: 2.5rem;
+      padding-bottom: 1.5rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    /* ── Sections ───────────────────────────────────────────────────────── */
+    h2 {
+      font-size: 1.15rem;
+      font-weight: 600;
+      color: var(--accent);
+      margin-top: 2.25rem;
+      margin-bottom: 0.6rem;
+    }
+
+    p {
+      margin-bottom: 1rem;
+      color: var(--text);
+    }
+
+    strong {
+      color: #fff;
+    }
+
+    /* ── Lists ──────────────────────────────────────────────────────────── */
+    ul {
+      margin: 0.5rem 0 1.25rem 1.25rem;
+      list-style: none;
+    }
+    ul li {
+      position: relative;
+      padding-left: 1rem;
+      margin-bottom: 0.6rem;
+    }
+    ul li::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0.65em;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--accent);
+    }
+
+    /* ── Permission Table ───────────────────────────────────────────────── */
+    .perm-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1rem 0 1.5rem;
+      font-size: 0.92rem;
+    }
+    .perm-table th {
+      text-align: left;
+      padding: 10px 14px;
+      background: var(--card-alt);
+      color: var(--accent);
+      font-weight: 600;
+      border-bottom: 1px solid var(--border);
+    }
+    .perm-table td {
+      padding: 10px 14px;
+      border-bottom: 1px solid var(--border);
+      vertical-align: top;
+    }
+    .perm-table td:first-child {
+      white-space: nowrap;
+      font-family: "SF Mono", "Consolas", "Courier New", monospace;
+      font-size: 0.85rem;
+      color: var(--accent);
+      background: var(--accent-dim);
+      border-radius: 4px 0 0 4px;
+      width: 180px;
+    }
+    .perm-table tr:last-child td {
+      border-bottom: none;
+    }
+
+    /* ── Highlight Box ──────────────────────────────────────────────────── */
+    .highlight {
+      background: var(--accent-dim);
+      border-left: 3px solid var(--accent);
+      border-radius: 0 8px 8px 0;
+      padding: 1rem 1.25rem;
+      margin: 1.25rem 0;
+      font-size: 0.95rem;
+    }
+    .highlight strong {
+      color: var(--accent);
+    }
+
+    /* ── Inline Code ────────────────────────────────────────────────────── */
+    code {
+      background: var(--accent-dim);
+      padding: 0.15rem 0.45rem;
+      border-radius: 4px;
+      font-size: 0.88em;
+      color: var(--accent);
+      font-family: "SF Mono", "Consolas", "Courier New", monospace;
+    }
+
+    /* ── Links ──────────────────────────────────────────────────────────── */
+    a {
+      color: var(--accent);
+      text-decoration: none;
+      transition: opacity 0.15s ease;
+    }
+    a:hover {
+      text-decoration: underline;
+      opacity: 0.85;
+    }
+
+    /* ── Footer ─────────────────────────────────────────────────────────── */
+    footer {
+      text-align: center;
+      margin-top: 2.5rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--border);
+      font-size: 0.8rem;
+      color: var(--text-sec);
+    }
+
+    /* ── Responsive ─────────────────────────────────────────────────────── */
+    @media (max-width: 640px) {
+      main { padding: 1.5rem; }
+      h1 { font-size: 1.4rem; }
+      .perm-table td:first-child { width: auto; white-space: normal; }
+    }
+  </style>
+</head>
+<body>
+
+  <main>
+    <!-- ── Header ───────────────────────────────────────────────────── -->
+    <div class="header">
+      <div class="header-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+             fill="none" stroke="currentColor" stroke-width="2"
+             stroke-linecap="round" stroke-linejoin="round">
+          <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/>
+        </svg>
+      </div>
+      <h1>Privacy Policy</h1>
+    </div>
+
+    <p class="meta">
+      <strong>Open Bookmarks in New Tab</strong> &mdash; Chrome Extension<br />
+      Last updated: March 1, 2026
+    </p>
+
+    <!-- ── 1. Overview ──────────────────────────────────────────────── -->
+    <h2>1. Overview</h2>
+    <p>
+      "Open Bookmarks in New Tab" is a Chrome extension that automatically
+      opens bookmarks in a new tab instead of replacing your current tab.
+      This privacy policy explains what data the extension handles (and
+      does not handle) and why each permission is required.
+    </p>
+
+    <!-- ── 2. Data Collection ───────────────────────────────────────── -->
+    <h2>2. Data Collection</h2>
+    <div class="highlight">
+      <strong>This extension does NOT collect, transmit, or store any
+      personal data.</strong> It does not use analytics, tracking,
+      cookies, or any third-party services.
+    </div>
+    <p>
+      The only data stored by the extension is your local preferences
+      (enabled/disabled state, tab focus setting, and tab position).
+      These preferences are saved entirely on your device using
+      <code>chrome.storage.local</code> and are
+      <strong>never sent to any external server</strong>.
+    </p>
+
+    <!-- ── 3. Permissions ───────────────────────────────────────────── -->
+    <h2>3. Permissions and Justifications</h2>
+    <p>
+      The extension requests the following permissions. Each one is
+      essential to the extension's core, single purpose. No permission
+      is used for data collection or tracking.
+    </p>
+
+    <table class="perm-table">
+      <thead>
+        <tr>
+          <th>Permission</th>
+          <th>Why It Is Needed</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>bookmarks</td>
+          <td>
+            Required to read and modify bookmark URLs by adding a
+            <code>newtab@</code> username prefix. This prefix is the
+            mechanism that allows the extension to identify
+            bookmark-triggered navigations and redirect them to new
+            tabs. When the extension is disabled, all bookmark URLs
+            are restored to their original state.
+          </td>
+        </tr>
+        <tr>
+          <td>tabs</td>
+          <td>
+            Required to create new tabs when a bookmark is clicked,
+            and to manage tab focus and position (end of tab bar or
+            right of current tab). Also used to determine the current
+            tab's index for correct placement.
+          </td>
+        </tr>
+        <tr>
+          <td>webNavigation</td>
+          <td>
+            Used to detect bookmark-triggered navigations via the
+            <code>onCommitted</code> event with
+            <code>transitionType: "auto_bookmark"</code>. This
+            distinguishes bookmark clicks from regular navigation.
+            No browsing history is collected or stored.
+          </td>
+        </tr>
+        <tr>
+          <td>downloads</td>
+          <td>
+            Part of the core mechanism that preserves the current
+            tab. When a bookmark is clicked, the modified URL
+            triggers a download of a small empty file bundled with
+            the extension. The extension immediately detects and
+            cancels this download via
+            <code>chrome.downloads.onCreated</code>, then opens the
+            original URL in a new tab. No actual file is saved to
+            the user's device.
+          </td>
+        </tr>
+        <tr>
+          <td>declarativeNetRequest</td>
+          <td>
+            Used to redirect requests containing the
+            <code>newtab@</code> username marker to an internal
+            <code>empty.zip</code> file. This redirect triggers
+            the download-based mechanism instead of a page
+            navigation, ensuring the current tab stays untouched.
+            Only URLs with the specific prefix are matched — no
+            other web traffic is affected.
+          </td>
+        </tr>
+        <tr>
+          <td>alarms</td>
+          <td>
+            Used to periodically wake the extension's service worker
+            (every 30 seconds) so the downloads listener remains
+            active. Chrome suspends inactive service workers, which
+            would cause the download-interception mechanism to fail.
+            The alarm performs no data collection or network
+            requests.
+          </td>
+        </tr>
+        <tr>
+          <td>storage</td>
+          <td>
+            Used to persist user preferences locally on the device
+            using <code>chrome.storage.local</code>. Stored settings
+            include: enabled/disabled state, focus preference, and
+            tab position. No personal data is stored. No data is
+            transmitted externally.
+          </td>
+        </tr>
+        <tr>
+          <td>Host permissions</td>
+          <td>
+            Required for <code>declarativeNetRequest</code> redirect
+            rules to function. The extension needs to intercept
+            requests from any URL that contains the
+            <code>newtab@</code> username prefix (which the
+            extension itself adds). Without host permissions, the
+            redirect rules cannot match these requests. The
+            extension does not read, modify, or collect any page
+            content.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- ── 4. Third-Party Services ──────────────────────────────────── -->
+    <h2>4. Third-Party Services</h2>
+    <p>
+      This extension does not use any third-party services, APIs,
+      analytics platforms, advertising networks, or tracking tools
+      of any kind.
+    </p>
+
+    <!-- ── 5. Data Sharing ──────────────────────────────────────────── -->
+    <h2>5. Data Sharing</h2>
+    <p>
+      No data is shared with any third party. No data leaves your
+      device. The extension operates entirely locally.
+    </p>
+
+    <!-- ── 6. Data Security ─────────────────────────────────────────── -->
+    <h2>6. Data Security</h2>
+    <p>
+      Since no personal data is collected or transmitted, there are
+      no data security risks associated with this extension beyond
+      standard browser security. User preferences are stored using
+      Chrome's built-in <code>chrome.storage.local</code> API, which
+      is sandboxed and protected by the browser.
+    </p>
+
+    <!-- ── 7. Remote Code ───────────────────────────────────────────── -->
+    <h2>7. Remote Code</h2>
+    <p>
+      This extension does not use any remote code. All JavaScript is
+      bundled locally within the extension package. There are no
+      external <code>&lt;script&gt;</code> tags, no dynamically
+      loaded modules, and no use of <code>eval()</code> or similar
+      functions.
+    </p>
+
+    <!-- ── 8. Children's Privacy ────────────────────────────────────── -->
+    <h2>8. Children's Privacy</h2>
+    <p>
+      This extension does not collect any data from anyone, including
+      children under the age of 13. It is suitable for users of all
+      ages.
+    </p>
+
+    <!-- ── 9. Changes to This Policy ────────────────────────────────── -->
+    <h2>9. Changes to This Policy</h2>
+    <p>
+      If this privacy policy is updated, the changes will be
+      reflected in extension updates and on this page. The "Last
+      updated" date at the top of this document will be revised
+      accordingly.
+    </p>
+
+    <!-- ── 10. Compliance ───────────────────────────────────────────── -->
+    <h2>10. Compliance</h2>
+    <p>
+      The use of information received from Chrome APIs adheres to the
+      <a href="https://developer.chrome.com/docs/webstore/program-policies/limited-use"
+         target="_blank" rel="noopener noreferrer">
+        Chrome Web Store User Data Policy</a>,
+      including the Limited Use requirements.
+    </p>
+
+    <!-- ── 11. Contact ──────────────────────────────────────────────── -->
+    <h2>11. Contact</h2>
+    <p>
+      If you have any questions or concerns about this privacy
+      policy, please contact the developer at:<br />
+      <a href="mailto:your-email@example.com">your-email@example.com</a>
+    </p>
+
+    <!-- ── Footer ───────────────────────────────────────────────────── -->
+    <footer>
+      &copy; 2026 Open Bookmarks in New Tab. All rights reserved.
+    </footer>
+  </main>
+
+</body>
+</html>
