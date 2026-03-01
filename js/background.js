@@ -384,6 +384,75 @@ chrome.downloads.onCreated.addListener(async (downloadItem) => {
   }
 });
 
+// ─── Fallback: webNavigation Safety Net ──────────────────────────────────────
+// On some browsers (e.g. Edge on Windows) or under certain timing conditions,
+// the declarativeNetRequest redirect rule may not fire. When that happens the
+// browser actually navigates to the newtab@ URL, which breaks sites that use
+// fetch() with relative URLs (the Fetch API spec forbids credentials in URLs).
+//
+// This listener catches any newtab@ page that slips through the redirect rule.
+// It strips the prefix and either:
+//   a) Updates the current tab (if it was the only page, e.g. new-tab origin)
+//   b) Opens the clean URL in a new tab and navigates the original tab back
+
+chrome.webNavigation.onCommitted.addListener(async (details) => {
+  // Only act on top-level frame navigations
+  if (details.frameId !== 0) return;
+  if (!settings.enabled) return;
+
+  // Only handle URLs that still contain our newtab@ prefix
+  // (means the declarativeNetRequest rule did NOT redirect it)
+  if (!hasPrefix(details.url)) return;
+
+  const cleanUrl = removePrefix(details.url);
+  const tabId = details.tabId;
+
+  try {
+    // Check how many entries the tab has in its history.
+    // If it only has 1 entry (the newtab@ URL itself), it was a new tab
+    // or single-page tab — just update it in place.
+    const tab = await chrome.tabs.get(tabId);
+
+    // Determine if this tab was essentially empty before the bookmark click.
+    // A tab with no prior history (e.g. opened from new-tab page) can be
+    // reused. We detect this by checking navigation entry count via the
+    // transitionType — "typed" or "auto_bookmark" from a new tab typically
+    // means the tab has no meaningful prior page.
+    const isFromNewTab = (
+      details.transitionType === "auto_bookmark" ||
+      details.transitionType === "typed"
+    );
+
+    // Try to detect if the tab had real content before.
+    // If the tab's history only contains the newtab@ URL, reuse it.
+    // Otherwise, open a new tab and go back.
+    if (isFromNewTab && (!tab.openerTabId || isNewTabPage(tab.pendingUrl))) {
+      // Simple case: just replace the newtab@ URL with the clean URL
+      await chrome.tabs.update(tabId, { url: cleanUrl });
+    } else {
+      // Open clean URL in a new tab
+      let createOptions = {
+        url: cleanUrl,
+        active: settings.focusNewTab,
+      };
+      if (settings.position === "right") {
+        createOptions.index = tab.index + 1;
+      }
+      await chrome.tabs.create(createOptions);
+
+      // Navigate the original tab back to restore its previous page
+      try {
+        await chrome.tabs.goBack(tabId);
+      } catch (err) {
+        // goBack may fail if there's no history — just update to new-tab
+        await chrome.tabs.update(tabId, { url: "chrome://newtab" });
+      }
+    }
+  } catch (err) {
+    console.warn("[Bookmarks→NewTab] Fallback handler error:", err);
+  }
+});
+
 // ─── Keep-Alive Alarm ────────────────────────────────────────────────────────
 // Chrome MV3 service workers can be terminated after ~30 seconds of
 // inactivity. The downloads.onCreated listener must be active to catch the
