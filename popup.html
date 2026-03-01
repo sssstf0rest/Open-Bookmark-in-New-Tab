@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<!--
+  ============================================================================
+  Open Bookmarks in New Tab — Popup UI
+  ============================================================================
+  This popup is shown when the user clicks the extension icon in the toolbar.
+  It provides a toggle to enable/disable the extension and settings for
+  new-tab behavior (focus, placement).
+
+  Design: Compact, accessible, dark-themed panel with smooth transitions.
+  ============================================================================
+-->
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Open Bookmarks in New Tab</title>
+  <link rel="stylesheet" href="css/popup.css" />
+</head>
+<body>
+  <!-- ── Header ─────────────────────────────────────────────────────────── -->
+  <header class="header" role="banner">
+    <div class="header__icon" aria-hidden="true">
+      <!-- Inline SVG bookmark icon for crisp rendering at small sizes -->
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+           viewBox="0 0 24 24" fill="none" stroke="currentColor"
+           stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/>
+      </svg>
+    </div>
+    <h1 class="header__title">Bookmarks → New Tab</h1>
+  </header>
+
+  <!-- ── Main Toggle ────────────────────────────────────────────────────── -->
+  <main class="main" role="main">
+    <section class="card" aria-label="Extension toggle">
+      <div class="toggle-row">
+        <div class="toggle-row__info">
+          <span class="toggle-row__label" id="toggle-label">Extension Enabled</span>
+          <span class="toggle-row__hint" id="status-text">
+            Bookmarks open in a new tab
+          </span>
+        </div>
+        <!-- 
+          Custom toggle switch built with a checkbox + label.
+          aria-labelledby links to the visible label text.
+        -->
+        <label class="switch" for="enabled-toggle">
+          <input type="checkbox" id="enabled-toggle" role="switch"
+                 aria-labelledby="toggle-label" checked />
+          <span class="switch__slider" aria-hidden="true"></span>
+        </label>
+      </div>
+    </section>
+
+    <!-- ── Settings ───────────────────────────────────────────────────── -->
+    <section class="card settings-card" id="settings-section"
+             aria-label="Settings">
+      <h2 class="card__heading">Settings</h2>
+
+      <!-- Focus new tab toggle -->
+      <div class="toggle-row toggle-row--small">
+        <span class="toggle-row__label" id="focus-label">
+          Focus new tab
+        </span>
+        <label class="switch switch--small" for="focus-toggle">
+          <input type="checkbox" id="focus-toggle" role="switch"
+                 aria-labelledby="focus-label" checked />
+          <span class="switch__slider" aria-hidden="true"></span>
+        </label>
+      </div>
+
+      <!-- New tab position -->
+      <div class="select-row">
+        <label class="select-row__label" for="position-select">
+          New tab position
+        </label>
+        <select id="position-select" class="select-row__select"
+                aria-label="Choose where the new tab appears">
+          <option value="end">End of tab bar</option>
+          <option value="right">Right of current tab</option>
+        </select>
+      </div>
+    </section>
+
+    <!-- ── Footer ─────────────────────────────────────────────────────── -->
+    <footer class="footer" role="contentinfo">
+      <p class="footer__text">
+        Tip: You can still Ctrl+Click or middle-click bookmarks to open
+        them in a new tab manually.
+      </p>
+    </footer>
+  </main>
+
+  <script src="js/popup.js"></script>
+</body>
+</html>

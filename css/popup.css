@@ -1,0 +1,307 @@
+/**
+ * =============================================================================
+ * Open Bookmarks in New Tab — Popup Styles
+ * =============================================================================
+ *
+ * Design system:
+ *   - Dark theme with a warm neutral palette
+ *   - 4px border-radius language throughout
+ *   - 200ms transitions for interactive elements
+ *   - Respects prefers-reduced-motion
+ *   - Focus-visible outlines for keyboard accessibility
+ *
+ * Layout: Single-column, fixed width (320px) to match Chrome popup constraints.
+ * =============================================================================
+ */
+
+/* ── Reset & Base ──────────────────────────────────────────────────────────── */
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  /* Colour tokens */
+  --bg-primary:    #1a1a2e;
+  --bg-card:       #16213e;
+  --bg-card-hover: #1a2745;
+  --text-primary:  #e8e8e8;
+  --text-secondary:#94a3b8;
+  --text-muted:    #64748b;
+  --accent:        #4fc3f7;
+  --accent-dim:    #29668a;
+  --danger:        #ef5350;
+  --border:        rgba(255, 255, 255, 0.06);
+
+  /* Spacing scale */
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 12px;
+  --space-lg: 16px;
+  --space-xl: 20px;
+
+  /* Typography */
+  --font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+  --font-size-sm:  12px;
+  --font-size-base: 13px;
+  --font-size-lg:  15px;
+
+  /* Transitions */
+  --ease: cubic-bezier(0.4, 0, 0.2, 1);
+  --duration: 200ms;
+}
+
+body {
+  width: 320px;
+  min-height: 100px;
+  font-family: var(--font-family);
+  font-size: var(--font-size-base);
+  color: var(--text-primary);
+  background: var(--bg-primary);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── Header ────────────────────────────────────────────────────────────────── */
+.header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: var(--space-lg) var(--space-lg) var(--space-md);
+  border-bottom: 1px solid var(--border);
+}
+
+.header__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  background: linear-gradient(135deg, var(--accent), #0288d1);
+  color: #fff;
+  flex-shrink: 0;
+}
+
+.header__title {
+  font-size: var(--font-size-lg);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--text-primary);
+}
+
+/* ── Main Content ──────────────────────────────────────────────────────────── */
+.main {
+  padding: var(--space-md) var(--space-lg) var(--space-lg);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+/* ── Card Component ────────────────────────────────────────────────────────── */
+.card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: var(--space-md) var(--space-lg);
+  transition: background var(--duration) var(--ease);
+}
+
+.card:hover {
+  background: var(--bg-card-hover);
+}
+
+.card__heading {
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-muted);
+  margin-bottom: var(--space-md);
+}
+
+/* ── Toggle Row ────────────────────────────────────────────────────────────── */
+.toggle-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-md);
+}
+
+.toggle-row--small {
+  padding-bottom: var(--space-md);
+  border-bottom: 1px solid var(--border);
+  margin-bottom: var(--space-md);
+}
+
+.toggle-row__info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.toggle-row__label {
+  font-size: var(--font-size-base);
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+.toggle-row__hint {
+  font-size: var(--font-size-sm);
+  color: var(--text-secondary);
+  transition: color var(--duration) var(--ease);
+}
+
+.toggle-row__hint--off {
+  color: var(--danger);
+}
+
+.toggle-row__hint--busy {
+  color: var(--accent-dim);
+  font-style: italic;
+}
+
+/* ── Toggle Switch ─────────────────────────────────────────────────────────── */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 44px;
+  height: 24px;
+  flex-shrink: 0;
+}
+
+.switch--small {
+  width: 36px;
+  height: 20px;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+  position: absolute;
+}
+
+.switch__slider {
+  position: absolute;
+  inset: 0;
+  cursor: pointer;
+  background: #334155;
+  border-radius: 24px;
+  transition: background var(--duration) var(--ease);
+}
+
+.switch__slider::before {
+  content: "";
+  position: absolute;
+  left: 3px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 18px;
+  height: 18px;
+  background: #fff;
+  border-radius: 50%;
+  transition: transform var(--duration) var(--ease),
+              box-shadow var(--duration) var(--ease);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+.switch--small .switch__slider::before {
+  width: 14px;
+  height: 14px;
+}
+
+/* Checked state */
+.switch input:checked + .switch__slider {
+  background: var(--accent);
+}
+
+.switch input:checked + .switch__slider::before {
+  transform: translateY(-50%) translateX(20px);
+}
+
+.switch--small input:checked + .switch__slider::before {
+  transform: translateY(-50%) translateX(16px);
+}
+
+/* Focus-visible ring for keyboard users */
+.switch input:focus-visible + .switch__slider {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* ── Select Row ────────────────────────────────────────────────────────────── */
+.select-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-md);
+}
+
+.select-row__label {
+  font-size: var(--font-size-base);
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+.select-row__select {
+  appearance: none;
+  -webkit-appearance: none;
+  padding: var(--space-xs) var(--space-xl) var(--space-xs) var(--space-sm);
+  font-family: var(--font-family);
+  font-size: var(--font-size-sm);
+  color: var(--text-primary);
+  background: #1e293b
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%2394a3b8'/%3E%3C/svg%3E")
+    no-repeat right 8px center;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 6px;
+  cursor: pointer;
+  transition: border-color var(--duration) var(--ease),
+              background-color var(--duration) var(--ease);
+}
+
+.select-row__select:hover {
+  border-color: var(--accent-dim);
+}
+
+.select-row__select:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+}
+
+.select-row__select option {
+  background: #1e293b;
+  color: var(--text-primary);
+}
+
+/* ── Settings Card — Disabled State ────────────────────────────────────────── */
+.settings-card--disabled {
+  opacity: 0.4;
+  pointer-events: none;
+  user-select: none;
+}
+
+/* ── Footer ────────────────────────────────────────────────────────────────── */
+.footer {
+  padding-top: var(--space-xs);
+}
+
+.footer__text {
+  font-size: 11px;
+  color: var(--text-muted);
+  line-height: 1.4;
+}
+
+/* ── Reduced Motion ────────────────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0ms !important;
+    animation-duration: 0ms !important;
+  }
+}

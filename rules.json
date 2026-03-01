@@ -1,0 +1,16 @@
+[
+  {
+    "id": 1,
+    "priority": 1,
+    "action": {
+      "type": "redirect",
+      "redirect": {
+        "extensionPath": "/empty.zip"
+      }
+    },
+    "condition": {
+      "regexFilter": "^https?://newtab@",
+      "resourceTypes": ["main_frame"]
+    }
+  }
+]
