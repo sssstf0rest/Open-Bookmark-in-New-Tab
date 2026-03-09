@@ -91,6 +91,47 @@ body {
   font-weight: 600;
   letter-spacing: -0.01em;
   color: var(--text-primary);
+  flex: 1;
+}
+
+/* ── Language Switcher ──────────────────────────────────────────────────── */
+.lang-switch {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  flex-shrink: 0;
+}
+
+.lang-switch__btn {
+  background: none;
+  border: none;
+  padding: 2px 4px;
+  font-family: var(--font-family);
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--text-muted);
+  cursor: pointer;
+  border-radius: 3px;
+  transition: color var(--duration) var(--ease);
+}
+
+.lang-switch__btn:hover {
+  color: var(--text-secondary);
+}
+
+.lang-switch__btn--active {
+  color: var(--accent);
+}
+
+.lang-switch__btn:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+}
+
+.lang-switch__sep {
+  font-size: 11px;
+  color: var(--text-muted);
+  user-select: none;
 }
 
 /* ── Main Content ──────────────────────────────────────────────────────────── */

@@ -18,6 +18,59 @@
 
 document.addEventListener("DOMContentLoaded", () => {
 
+  // ─── i18n ─────────────────────────────────────────────────────────────
+
+  const I18N = {
+    en: {
+      title:       "Bookmarks → New Tab",
+      extEnabled:  "Extension Enabled",
+      statusOn:    "Bookmarks open in a new tab",
+      statusOff:   "Extension is paused",
+      busyEnable:  "Enabling… updating bookmarks",
+      busyDisable: "Disabling… restoring bookmarks",
+      settings:    "Settings",
+      focusNewTab: "Focus new tab",
+      tabPosition: "New tab position",
+      posEnd:      "End of tab bar",
+      posRight:    "Right of current tab",
+      tip:         "Tip: You can still Ctrl+Click or middle-click bookmarks to open them in a new tab manually.",
+    },
+    zh: {
+      title:       "书签 → 新标签页",
+      extEnabled:  "扩展已启用",
+      statusOn:    "书签将在新标签页中打开",
+      statusOff:   "扩展已暂停",
+      busyEnable:  "正在启用…更新书签中",
+      busyDisable: "正在禁用…恢复书签中",
+      settings:    "设置",
+      focusNewTab: "聚焦新标签页",
+      tabPosition: "新标签页位置",
+      posEnd:      "标签栏末尾",
+      posRight:    "当前标签页右侧",
+      tip:         "提示：您仍然可以按住 Ctrl 点击或鼠标中键点击书签来手动在新标签页中打开。",
+    },
+  };
+
+  let currentLang = "en";
+
+  function applyLang(lang) {
+    currentLang = lang;
+    const strings = I18N[lang];
+    document.querySelectorAll("[data-i18n]").forEach((el) => {
+      const key = el.dataset.i18n;
+      if (strings[key] != null) el.textContent = strings[key];
+    });
+    // Update active button styles
+    document.getElementById("lang-en").classList.toggle("lang-switch__btn--active", lang === "en");
+    document.getElementById("lang-zh").classList.toggle("lang-switch__btn--active", lang === "zh");
+    // Persist preference
+    chrome.storage.local.set({ lang });
+  }
+
+  function t(key) {
+    return I18N[currentLang][key] || I18N.en[key] || key;
+  }
+
   // ─── DOM References ──────────────────────────────────────────────────
   const enabledToggle   = document.getElementById("enabled-toggle");
   const focusToggle     = document.getElementById("focus-toggle");
@@ -60,18 +113,15 @@ document.addEventListener("DOMContentLoaded", () => {
    */
   function updateVisualState(isEnabled, isBusy = false) {
     if (isBusy) {
-      // Show a brief status while bookmarks are being rewritten
-      statusText.textContent = isEnabled
-        ? "Enabling… updating bookmarks"
-        : "Disabling… restoring bookmarks";
+      statusText.textContent = isEnabled ? t("busyEnable") : t("busyDisable");
       statusText.classList.remove("toggle-row__hint--off");
       statusText.classList.add("toggle-row__hint--busy");
     } else if (isEnabled) {
-      statusText.textContent = "Bookmarks open in a new tab";
+      statusText.textContent = t("statusOn");
       statusText.classList.remove("toggle-row__hint--off");
       statusText.classList.remove("toggle-row__hint--busy");
     } else {
-      statusText.textContent = "Extension is paused";
+      statusText.textContent = t("statusOff");
       statusText.classList.add("toggle-row__hint--off");
       statusText.classList.remove("toggle-row__hint--busy");
     }
@@ -132,6 +182,14 @@ document.addEventListener("DOMContentLoaded", () => {
     updateSetting({ position: positionSelect.value });
   });
 
+  // ─── Language Switcher ───────────────────────────────────────────────
+  document.getElementById("lang-en").addEventListener("click", () => applyLang("en"));
+  document.getElementById("lang-zh").addEventListener("click", () => applyLang("zh"));
+
   // ─── Kick off ────────────────────────────────────────────────────────
-  initUI();
+  // Restore saved language, then init UI
+  chrome.storage.local.get("lang", (result) => {
+    if (result.lang) applyLang(result.lang);
+    initUI();
+  });
 });
